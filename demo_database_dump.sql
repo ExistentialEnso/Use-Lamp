@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `Game` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 INSERT INTO `Game` (`id`, `name`, `welcome_message`, `version_numeric`, `version_display`, `initial_location_id`) VALUES
-(1, 'Demo Game', 'Welcome to the game. This is just a demo game. have fun!', 0, 'v0.1', 1);
+(1, 'Demo Game', 'Welcome to the game. This is just a demo game to demonstrate what the engine can do.', 0, 'v0.1', 1);
 
 CREATE TABLE IF NOT EXISTS `GameEntity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
