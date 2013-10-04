@@ -21,10 +21,25 @@ $cmd = $_POST['cmd'];
 $cmd_pieces = explode(" ", $cmd);
 $root_cmd = $cmd_pieces[0];
 
+// Array of commands to "verbosify" to avoid redundancies.
+$_verbosify = array (
+  "ex" => "examine",
+  "l" => "look",
+  "i" => "inventory",
+  "st" => "status",
+  "u" => "use"
+);
+
+if(isset($_verbosify[$root_cmd])) {
+  $root_cmd = $_verbosify[$root_cmd];
+}
+
+$player = new \models\entities\PlayerCharacter();
+
 // Valid direction commands
 $_movements = array("w", "n", "s", "e", "ne", "nw", "se", "sw", "in", "out", "up", "down");
-$_basic = array("load", "i", "inventory", "look");
-$_adv = array("use", "ex", "examine");
+$_basic = array("load", "inventory", "look", "status", "help");
+$_adv = array("use", "examine");
 
 $view = null;
 
@@ -35,12 +50,12 @@ if(in_array($cmd, $_movements)) {
   if(!is_null($new_location)) {
     $location = $new_location; // avoid overwriting this will null before the if
     $_SESSION['location_id'] = $location->getId();
-    $view = "look";
+    $view = "look"; // Good enough for output
   } else {
     echo($location->getNavigationMatrix()->getInvalidDirectionMessage());
     exit;
   }
-} else if(in_array($cmd, $_basic)) {
+} else if(in_array($root_cmd, $_basic)) {
   $view = $cmd;
 
   switch($cmd) {
@@ -49,6 +64,8 @@ if(in_array($cmd, $_movements)) {
       break;
   }
 } elseif(in_array($root_cmd, $_adv)) {
+  $view = $root_cmd;
+
   switch($root_cmd) {
     case "use":
       if(!isset($cmd_pieces[1]))
@@ -71,9 +88,6 @@ if(in_array($cmd, $_movements)) {
         exit;
       }
       break;
-    case "ex":
-      $view = "examine";
-      // don't break here so next block runs
     case "examine":
       if(!isset($cmd_pieces[1]))
       {

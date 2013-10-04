@@ -2,18 +2,17 @@
 /**
 * @author Thorne Melcher <tmelcher@portdusk.com>
 */
-
 require(__DIR__ . DIRECTORY_SEPARATOR . "config.php");
 
 // Define an autoloader for classes in the context of this project. Namespaces correspond to directories from the root path.
 function __autoload($class)
 {
-  if(stripos($class, "Symfony") !== false) $class = "Symfony\\" . $class;
+  if(stripos($class, "Symfony") !== false) $class = "Doctrine\\" . $class;
 
   $class = str_replace("\\", "/", $class);
   $class = str_replace("DoctrineProxies/__CG__", "", $class);
 
-  require_once(__DIR__ . "/../" . $class . ".php");
+  require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . $class . ".php");
 }
 
 /** DOCTRINE SETUP FUN */

@@ -12,6 +12,7 @@ use ORM\Mapping\GeneratedValue;
 
 /**
  * @Entity
+ * @Table(name="game")
  * @package models
  */
 class Game {
@@ -52,6 +53,12 @@ class Game {
    * @var string
    */
   protected $version_display;
+
+  /**
+   * @Column(type="text")
+   * @var string
+   */
+  protected $about_text;
 
   /**
    * @param int $id
@@ -135,6 +142,20 @@ class Game {
    */
   public function getInitialLocation() {
     return $this->initial_location;
+  }
+
+  /**
+   * @param string $about_text
+   */
+  public function setAboutText($about_text) {
+    $this->about_text = $about_text;
+  }
+
+  /**
+   * @return string
+   */
+  public function getAboutText() {
+    return $this->about_text;
   }
 
 

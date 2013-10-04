@@ -16,6 +16,7 @@ namespace models\map;
  * directions are null.
  *
  * @Entity
+ * @Table(name="navigationmatrix")
  * @package models\map
  */
 class NavigationMatrix {

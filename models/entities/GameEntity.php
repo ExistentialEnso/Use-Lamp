@@ -7,6 +7,10 @@ namespace models\entities;
 
 /**
  * @Entity
+ * @Table(name="gameentity")
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="type", type="string")
+ * @DiscriminatorMap({"item" = "Item", "npc" = "NonPlayerCharacter", "player" = "PlayerCharacter"})
  * @package models\entities
  */
 class GameEntity {
@@ -45,6 +49,12 @@ class GameEntity {
    * @var string
    */
   protected $description;
+
+  /**
+   * @OneToMany(targetEntity="StatValue", mappedBy="entity")
+   * @var array
+   */
+  protected $stat_values;
 
   /**
    * @param string $description
@@ -114,6 +124,20 @@ class GameEntity {
    */
   public function getLocation() {
     return $this->location;
+  }
+
+  /**
+   * @param array $stat_values
+   */
+  public function setStatValues($stat_values) {
+    $this->stat_values = $stat_values;
+  }
+
+  /**
+   * @return array
+   */
+  public function getStatValues() {
+    return $this->stat_values;
   }
 
 

@@ -14,6 +14,7 @@ use ORM\Mapping\OneToMany;
 
 /**
  * @Entity
+ * @Table(name="location")
  * @package models\map
  */
 class Location {
