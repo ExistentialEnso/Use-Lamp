@@ -1,0 +1,14 @@
+#output_buffer {
+    width:100%;
+    height:100%;
+    margin-bottom:10px;
+    overflow:auto;
+    font-family:monospace;
+}
+
+#command_line {
+    width:100%;
+    font-family:monospace;
+    position:absolute;
+    bottom:0px;
+}
