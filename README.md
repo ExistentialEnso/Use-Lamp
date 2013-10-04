@@ -1,4 +1,4 @@
->use lamp
+Use Lamp
 ========
 PHP/JavaScript/MySQL MUD engine
 * License: GPL v3
