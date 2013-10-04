@@ -12,8 +12,7 @@
     <link rel="stylesheet" type="text/css" href="assets/client.css">
   </head>
   <body>
-  <div id="output_buffer"></div>
-  <br />
   <input id="command_line" type="text" />
+  <div id="output_buffer"></div>
   </body>
 </html>
