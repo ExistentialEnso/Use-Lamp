@@ -3,6 +3,8 @@
 * @author Thorne Melcher <tmelcher@portdusk.com>
 */
 
+require(__DIR__ . DIRECTORY_SEPARATOR . "config.php");
+
 // Define an autoloader for classes in the context of this project. Namespaces correspond to directories from the root path.
 function __autoload($class)
 {
@@ -23,9 +25,9 @@ $isDevMode = true;
 
 $dbParams = array(
   'driver'   => 'pdo_mysql',
-  'user'     => 'root',
-  'password' => '',
-  'dbname'   => 'use-lamp',
+  'user'     => DB_USERNAME,
+  'password' => DB_PASSWORD,
+  'dbname'   => DB_NAME,
 );
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
