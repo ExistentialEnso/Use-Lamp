@@ -1,8 +1,24 @@
 <?php
 /**
-* @author Thorne Melcher <tmelcher@portdusk.com>
-*/
+ * Router file to handle incoming commands from clients.
+ *
+ * @author Thorne Melcher <tmelcher@portdusk.com>
+ */
+
+// Handles db connection and basic setup
 require("core/bootstrap.php");
+
+// Array of commands to "verbosify" to avoid redundancies.
+$_verbosify = array (
+  "ex" => "examine",
+  "l" => "look",
+  "i" => "inventory",
+  "st" => "status",
+  "u" => "use"
+);
+
+// Array of commands that all route into the logic of "MoveCommand"
+$_movements = array("w", "n", "s", "e", "ne", "nw", "se", "sw", "in", "out", "up", "down");
 
 // Load our root game object
 $game = $em->createQuery("SELECT g FROM \models\Game g")->getResult()[0];
@@ -21,99 +37,45 @@ $cmd = $_POST['cmd'];
 $cmd_pieces = explode(" ", $cmd);
 $root_cmd = $cmd_pieces[0];
 
-// Array of commands to "verbosify" to avoid redundancies.
-$_verbosify = array (
-  "ex" => "examine",
-  "l" => "look",
-  "i" => "inventory",
-  "st" => "status",
-  "u" => "use"
-);
-
 if(isset($_verbosify[$root_cmd])) {
   $root_cmd = $_verbosify[$root_cmd];
 }
 
-$player = new \models\entities\PlayerCharacter();
-
-// Valid direction commands
-$_movements = array("w", "n", "s", "e", "ne", "nw", "se", "sw", "in", "out", "up", "down");
-$_basic = array("load", "inventory", "look", "status", "help");
-$_adv = array("use", "examine");
-
-$view = null;
-
-// Detect if this is a movement command
-if(in_array($cmd, $_movements)) {
-  $new_location = $location->getLocation($cmd);
-
-  if(!is_null($new_location)) {
-    $location = $new_location; // avoid overwriting this will null before the if
-    $_SESSION['location_id'] = $location->getId();
-    $view = "look"; // Good enough for output
-  } else {
-    echo($location->getNavigationMatrix()->getInvalidDirectionMessage());
+// Determine how the command should be routed
+if(in_array($root_cmd, $_movements)) {
+  // Error out if the user included extra parameters in the move command
+  if(sizeof($cmd_pieces) > 1) {
+    echo("Error: if you intended to make a movement command, do not include any extra text.");
     exit;
   }
-} else if(in_array($root_cmd, $_basic)) {
-  $view = $cmd;
 
-  switch($cmd) {
-    case "i":
-      $view = "inventory"; // One view, synonymous commands
-      break;
-  }
-} elseif(in_array($root_cmd, $_adv)) {
-  $view = $root_cmd;
+  $command_class = "MoveCommand";
+  $params = array($root_cmd);
+} else {
+  $command_class = ucfirst($root_cmd) . "Command";
 
-  switch($root_cmd) {
-    case "use":
-      if(!isset($cmd_pieces[1]))
-      {
-        echo("You must specify what you want to examine!");
-        exit;
-      }
-
-      foreach($location->getEntities() as $entity) {
-        if(strtolower($entity->getName()) == $cmd_pieces[1]) {
-          $target_entity = $entity;
-
-          echo("You use the " . $cmd_pieces[1] . " to no effect.");
-          exit;
-        }
-      }
-
-      if(is_null($target_entity)) {
-        echo("Couldn't find object '" . $cmd_pieces[1]. "' here. Try shortening the name?");
-        exit;
-      }
-      break;
-    case "examine":
-      if(!isset($cmd_pieces[1]))
-      {
-        echo("You must specify what you want to examine!");
-        exit;
-      }
-
-      foreach($location->getEntities() as $entity) {
-        if(strtolower($entity->getName()) == $cmd_pieces[1]) {
-          $target_entity = $entity;
-        }
-      }
-
-      if(is_null($target_entity)) {
-        echo("Couldn't find object '" . $cmd_pieces[1]. "' here. Try shortening the name?");
-        exit;
-      }
-      break;
-  }
+  // Everything except the first part of the command becomes a parameter
+  array_shift($cmd_pieces);
+  $params = $cmd_pieces;
 }
 
-if($view == null) {
-  echo("Whoops. I don't understand that!");
+// If there isn't a Command class for the command we've decided on, it's an invalid command.
+if(!file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . "commands" . DIRECTORY_SEPARATOR . $command_class . ".php")) {
+  echo("I didn't understand that command. Type 'help' or try something else.");
   exit;
 }
 
+// Get the full, namespaced path of our class
+$command_class = "commands\\" . $command_class;
 
-//Load in our view HTML
-require(__DIR__ . "/views/" . $view . ".html.php");
+$player = new \models\entities\PlayerCharacter();
+$player->setLocation($location);
+
+// Create and setup our actual Command
+$command = new $command_class($game, $player);
+
+// Actually run the command
+$response = $command->run($params);
+
+// Render and output the Command's View.
+echo $command->render();

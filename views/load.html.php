@@ -4,6 +4,8 @@
  *
  * @author Thorne Melcher <tmelcher@portdusk.com>
  */
+
+$location = $player->getLocation();
 ?>
 <strong><?=$game->getName()?> [<?=$game->getVersionDisplay()?>]</strong>
 <br /><br />

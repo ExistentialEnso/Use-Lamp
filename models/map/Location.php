@@ -106,7 +106,7 @@ class Location {
     return $this->navigation_matrix;
   }
 
-  public function getLocation($direction) {
+  public function getNearbyLocation($direction) {
     if(is_null($this->navigation_matrix)) return null;
 
     return $this->navigation_matrix->getLocation($direction);
