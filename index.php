@@ -1,3 +1,3 @@
 <?php
-// Load the client directly by default.
-require("client.php");
+// Load the client view directly by default.
+require("views/client.php");
