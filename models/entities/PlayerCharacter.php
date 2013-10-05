@@ -29,6 +29,24 @@ class PlayerCharacter extends GameEntity {
   protected $user;
 
   /**
+   * @Column(type="integer")
+   * @var int
+   */
+  protected $money;
+
+  /**
+   * @Column(type="integer")
+   * @var int
+   */
+  protected $health = 100;
+
+  /**
+   * @Column(type="integer")
+   * @var int
+   */
+  protected $max_health = 100;
+
+  /**
    * @param array $inventory_items
    */
   public function setInventoryItems($inventory_items) {
@@ -55,4 +73,51 @@ class PlayerCharacter extends GameEntity {
   public function getUser() {
     return $this->user;
   }
+
+  /**
+   * @param int $money
+   */
+  public function setMoney($money) {
+    $this->money = $money;
+  }
+
+  /**
+   * @return int
+   */
+  public function getMoney() {
+    return $this->money;
+  }
+
+  /**
+   * @param int $health
+   */
+  public function setHealth($health) {
+    // Don't let health go over the maximum
+    if($health > $this->max_health) $health = $this->max_health;
+
+    $this->health = $health;
+  }
+
+  /**
+   * @return int
+   */
+  public function getHealth() {
+    return $this->health;
+  }
+
+  /**
+   * @param int $max_health
+   */
+  public function setMaxHealth($max_health) {
+    $this->max_health = $max_health;
+  }
+
+  /**
+   * @return int
+   */
+  public function getMaxHealth() {
+    return $this->max_health;
+  }
+
+
 }

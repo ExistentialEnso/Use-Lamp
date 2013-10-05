@@ -22,8 +22,8 @@ INSERT INTO `game` (`id`, `name`, `welcome_message`, `version_numeric`, `version
 CREATE TABLE IF NOT EXISTS `gameentity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `location_text` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `location_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `location_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -107,7 +107,12 @@ CREATE TABLE IF NOT EXISTS `nonplayercharacter` (
 
 CREATE TABLE IF NOT EXISTS `playercharacter` (
   `id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) DEFAULT NULL,
+  `money` int(11) NOT NULL,
+  `health` int(11) NOT NULL,
+  `max_health` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_BB6DB4B4A76ED395` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `stat` (
@@ -132,12 +137,20 @@ CREATE TABLE IF NOT EXISTS `statvalue` (
   KEY `IDX_222A7EDC81257D5D` (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `verbose_mode_on` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
 
 ALTER TABLE `game`
   ADD CONSTRAINT `FK_83199EB21AD73273` FOREIGN KEY (`initial_location_id`) REFERENCES `location` (`id`);
 
 ALTER TABLE `gameentity`
-  ADD CONSTRAINT `FK_FED2D79D64D218E` FOREIGN KEY (`location_id`) REFERENCES `game` (`id`);
+  ADD CONSTRAINT `FK_B623D17B64D218E` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`);
 
 ALTER TABLE `item`
   ADD CONSTRAINT `FK_BF298A20AECA3FE2` FOREIGN KEY (`in_inventory_of_player_id`) REFERENCES `playercharacter` (`id`),
@@ -167,7 +180,8 @@ ALTER TABLE `nonplayercharacter`
   ADD CONSTRAINT `FK_E95B93DBF396750` FOREIGN KEY (`id`) REFERENCES `gameentity` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `playercharacter`
-  ADD CONSTRAINT `FK_B1590889BF396750` FOREIGN KEY (`id`) REFERENCES `gameentity` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_B1590889BF396750` FOREIGN KEY (`id`) REFERENCES `gameentity` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_BB6DB4B4A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 ALTER TABLE `statvalue`
   ADD CONSTRAINT `FK_222A7EDC81257D5D` FOREIGN KEY (`entity_id`) REFERENCES `gameentity` (`id`),
