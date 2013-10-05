@@ -60,11 +60,13 @@ class Game {
    */
   protected $about_text;
 
-  /**
-   * @param int $id
-   */
-  public function setId($id) {
-    $this->id = $id;
+  public function createNewCharacter() {
+    $char = new \models\entities\PlayerCharacter();
+
+    $char->setLocation($this->initial_location);
+    $char->setName("");
+
+    return $char;
   }
 
   /**

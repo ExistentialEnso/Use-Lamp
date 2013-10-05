@@ -31,7 +31,7 @@ class GameEntity {
   protected $name;
 
   /**
-   * @ManyToOne(targetEntity="\models\Game", inversedBy="entities")
+   * @ManyToOne(targetEntity="\models\map\Location", inversedBy="entities")
    * @var string
    */
   protected $location;
@@ -39,13 +39,13 @@ class GameEntity {
   /**
    * The text to show when viewing a location that this entity is in.
    *
-   * @Column(type="string")
+   * @Column(type="string", nullable=true)
    * @var string
    */
   protected $location_text;
 
   /**
-   * @Column(type="string")
+   * @Column(type="string", nullable=true)
    * @var string
    */
   protected $description;

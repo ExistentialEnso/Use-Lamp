@@ -23,12 +23,31 @@ $_movements = array("w", "n", "s", "e", "ne", "nw", "se", "sw", "in", "out", "up
 // Load our root game object
 $game = $em->createQuery("SELECT g FROM \models\Game g")->getResult()[0];
 
-// Some temporary logic to compensate for the fact that proper player login/saving/etc. isn't yet developed
-session_start();
-$l_id = is_numeric($_SESSION['location_id']) ? $_SESSION['location_id'] : $game->getInitialLocation()->getId();
-$location = $em->createQuery("SELECT l FROM \models\map\Location l WHERE l.id=" . $l_id)->getResult()[0];
-$player = new \models\entities\PlayerCharacter();
-$player->setLocation($location);
+$user = null;
+if(isset($_COOKIE['login'])) {
+  $login_data = explode(":", $_COOKIE['login']);
+
+  if(isset($login_data[1])) {
+    $result = $em->createQuery("SELECT u FROM \models\User u WHERE u.email_address = :email")->setParameter("email", $login_data[0])->getResult();
+
+    if(count($result) == 1) {
+      if($result[0]->getPasswordHash() == $login_data[1]) {
+        $user = $result[0];
+      }
+    }
+  }
+}
+if($user == null) {
+  echo("You are not currently logged in. Please refresh the client and login.");
+  exit;
+}
+
+$result = $em->createQuery("SELECT p FROM \\models\\entities\\PlayerCharacter p WHERE p.user=:user")->setParameter("user", $user->getId())->getResult();
+if($result == null) {
+  echo("This user account doesn't have a character associated with it.");
+  exit;
+}
+$player = $result[0];
 
 // Placeholders
 $target_entity = null;
@@ -74,6 +93,10 @@ $command = new $command_class($game, $player);
 
 // Actually run the command
 $response = $command->run($params);
+
+// Persist the new state of the player (which we passed by reference to the command)
+$em->persist($player);
+$em->flush();
 
 // Render and output the Command's View.
 echo $command->render();
