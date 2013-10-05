@@ -9,6 +9,8 @@ $location = $player->getLocation();
 <?=$location->getDescription()?>
 <?php
 foreach($location->getEntities() as $entity) {
-  ?><br /><?=$entity->getLocationText()?><?php
+  if(!($entity instanceof \models\entities\PlayerCharacter)) {
+    ?><br /><?=$entity->getLocationText()?><?php
+  }
 }
 ?>

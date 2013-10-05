@@ -96,6 +96,7 @@ $response = $command->run($params);
 
 // Persist the new state of the player (which we passed by reference to the command)
 $em->persist($player);
+$em->persist($player->getLocation());
 $em->flush();
 
 // Render and output the Command's View.
