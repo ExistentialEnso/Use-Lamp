@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.post("command.php", {"cmd":"load"}, function(data) {
+    $.post("command-handler.php", {"cmd":"load"}, function(data) {
         $("#output_buffer").append(data);
     });
 
@@ -7,7 +7,7 @@ $(document).ready(function() {
         if(event.keyCode == 13) {
             command = $("#command_line").val();
 
-            $.post("command.php", {"cmd":command}, function(data) {
+            $.post("command-handler.php", {"cmd":command}, function(data) {
                 $("#output_buffer").append("<br />" + data);
             });
 
