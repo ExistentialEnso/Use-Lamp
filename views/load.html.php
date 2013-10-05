@@ -11,10 +11,4 @@ $location = $player->getLocation();
 <br /><br />
 <?=$game->getWelcomeMessage()?>
 <br /><br />
-<?=$location->getName()?><br />
-<?=$location->getDescription()?>
-<?php
-foreach($location->getEntities() as $entity) {
-  ?><br /><?=$entity->getLocationText()?><?php
-}
-?>
+<?php require("look.html.php") ?>
