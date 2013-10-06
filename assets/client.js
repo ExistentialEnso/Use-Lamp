@@ -12,15 +12,13 @@ $(document).ready(function() {
 
             $.post("command-handler.php", {"cmd":command}, function(data) {
                 $("#output_buffer").append("<br />" + data);
+
+                document.getElementById("output_buffer_container").scrollTop = document.getElementById("output_buffer_container").scrollHeight;
             });
 
             $("#command_line").val("");
 
             $("#output_buffer").append("<br /><br />>" + command);
-
-            // scroll to bottom of output buffer
-            var objDiv = document.getElementById("output_buffer");
-            objDiv.scrollTop = objDiv.scrollHeight;
         } else if(event.keyCode == 38) {
             $("#command_line").val(last_command);
         }
