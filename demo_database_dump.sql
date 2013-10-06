@@ -156,23 +156,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `message` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A765AD3299E6F5DF` (`player_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
-
-INSERT INTO `notification` (`id`, `player_id`, `time`, `message`) VALUES
-(1, 5, '2013-10-06 06:09:47', 'John danced to music only they could hear.'),
-(2, 5, '2013-10-06 06:10:34', 'John danced to music only they could hear.'),
-(3, 5, '2013-10-06 06:10:42', 'John danced to music only they could hear.'),
-(4, 5, '2013-10-06 06:10:54', 'John danced to music only they could hear.'),
-(5, 5, '2013-10-06 06:11:31', 'John danced to music only they could hear.'),
-(6, 5, '2013-10-06 06:11:46', 'John danced to music only they could hear.'),
-(7, 5, '2013-10-06 06:16:28', 'John danced to music only they could hear.'),
-(8, 5, '2013-10-06 06:17:54', 'John danced to music only they could hear.'),
-(9, 5, '2013-10-06 06:18:10', 'John danced to music only they could hear.'),
-(10, 5, '2013-10-06 06:26:31', 'John danced to music only he could hear.'),
-(11, 5, '2013-10-06 06:27:16', 'John danced to music only he could hear.'),
-(12, 5, '2013-10-06 06:27:42', 'John danced to music only it could hear.'),
-(13, 5, '2013-10-06 06:27:55', 'John danced to music only zhe could hear.'),
-(14, 5, '2013-10-06 06:28:34', 'John danced to music only he could hear.');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `playercharacter` (
   `id` int(11) NOT NULL,
