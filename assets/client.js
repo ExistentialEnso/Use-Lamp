@@ -13,14 +13,19 @@ $(document).ready(function() {
             $.post("command-handler.php", {"cmd":command}, function(data) {
                 $("#output_buffer").append("<br />" + data);
 
-                document.getElementById("output_buffer_container").scrollTop = document.getElementById("output_buffer_container").scrollHeight;
+                scrollBufferToBottom();
             });
 
             $("#command_line").val("");
 
             $("#output_buffer").append("<br /><br />>" + command);
+            scrollBufferToBottom();
         } else if(event.keyCode == 38) {
             $("#command_line").val(last_command);
         }
     });
 });
+
+function scrollBufferToBottom() {
+    document.getElementById("output_buffer_container").scrollTop = document.getElementById("output_buffer_container").scrollHeight;
+}
