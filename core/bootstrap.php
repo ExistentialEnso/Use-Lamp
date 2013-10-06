@@ -4,6 +4,8 @@
 */
 require(__DIR__ . DIRECTORY_SEPARATOR . "config.php");
 
+date_default_timezone_set("Europe/Paris");
+
 // Define an autoloader for classes in the context of this project. Namespaces correspond to directories from the root path.
 function __autoload($class)
 {

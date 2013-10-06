@@ -1,8 +1,12 @@
 var last_command = "";
 
+var last_notifications = (new Date()).getTime();
+
 $(document).ready(function() {
     $.post("command-handler.php", {"cmd":"load"}, function(data) {
         $("#output_buffer").append(data);
+
+        setTimeout(checkNotifications(), 500);
     });
 
     $("#command_line").keydown(function(event) {
@@ -25,6 +29,21 @@ $(document).ready(function() {
         }
     });
 });
+
+function checkNotifications() {
+    $.post("check-notifications.php", {"cutoff":last_notifications}, function(data) {
+        if(data == "") return;
+
+        data = $.parseJSON(data);
+
+        $("#output_buffer").append(data.output);
+        scrollBufferToBottom();
+
+        last_notifications = data.latest;
+
+        checkNotifications();
+    });
+}
 
 function scrollBufferToBottom() {
     document.getElementById("output_buffer_container").scrollTop = document.getElementById("output_buffer_container").scrollHeight;

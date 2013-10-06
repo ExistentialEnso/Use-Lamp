@@ -19,6 +19,8 @@ abstract class Command {
   protected $player;
   protected $game;
 
+  protected $new_notifications;
+
   protected $data;
 
   /**
@@ -28,6 +30,7 @@ abstract class Command {
     $this->game = $game;
     $this->player = $player;
     $this->data = array();
+    $this->new_notifications = array();
   }
 
   public function render() {
@@ -50,6 +53,10 @@ abstract class Command {
    */
   public function run($params) {
 
+  }
+
+  public function getNewNotifications() {
+    return $this->new_notifications;
   }
 
   public function set($new_data) {

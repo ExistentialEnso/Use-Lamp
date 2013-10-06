@@ -14,3 +14,4 @@ foreach($location->getEntities() as $entity) {
   }
 }
 ?>
+<br />

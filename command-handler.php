@@ -8,13 +8,19 @@
 // Handles db connection and basic setup
 require("core/bootstrap.php");
 
-// Array of commands to "verbosify" to avoid redundancies.
-$_verbosify = array (
+// Array of command aliases
+$_aliases = array (
+  // Shortened versions of commands
   "ex" => "examine",
   "l" => "look",
   "i" => "inventory",
   "st" => "status",
-  "u" => "use"
+  "u" => "use",
+
+  // Alternate versions of commands
+  "roll" => "dice",
+  "rand" => "dice",
+  "take" => "get"
 );
 
 // Array of commands that all route into the logic of "MoveCommand"
@@ -48,6 +54,7 @@ if($result == null) {
   exit;
 }
 $player = $result[0];
+$player->setLastActive(new \DateTime());
 
 // Placeholders
 $target_entity = null;
@@ -62,8 +69,8 @@ if($player->getHealth() == 0 && ($root_cmd != "load" && $root_cmd != "look")) {
   exit;
 }
 
-if(isset($_verbosify[$root_cmd])) {
-  $root_cmd = $_verbosify[$root_cmd];
+if(isset($_aliases[$root_cmd])) {
+  $root_cmd = $_aliases[$root_cmd];
 }
 
 // Determine how the command should be routed
@@ -98,6 +105,10 @@ $command = new $command_class($game, $player);
 
 // Actually run the command
 $response = $command->run($params);
+
+foreach($command->getNewNotifications() as $n) {
+  $em->persist($n);
+}
 
 // Persist the new state of the player (which we passed by reference to the command)
 $em->persist($player);

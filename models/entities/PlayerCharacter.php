@@ -29,6 +29,12 @@ class PlayerCharacter extends Character {
   protected $user;
 
   /**
+   * @Column(type="datetime")
+   * @var \DateTime
+   */
+  protected $last_active;
+
+  /**
    * @Column(type="integer")
    * @var int
    */
@@ -131,5 +137,17 @@ class PlayerCharacter extends Character {
     return $this->max_health;
   }
 
+  /**
+   * @param \DateTime $last_active
+   */
+  public function setLastActive($last_active) {
+    $this->last_active = $last_active;
+  }
 
+  /**
+   * @return \DateTime
+   */
+  public function getLastActive() {
+    return $this->last_active;
+  }
 }
