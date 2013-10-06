@@ -13,11 +13,11 @@ drop [item]<br />
 examine [item] (or 'ex' for short)<br />
 inventory (or 'i' for short)
 <br /><br />
+<strong>Information-Related</strong><br />
+about - information about the game<br />
+look - information about your current location<br />
+status - information about your character's current status<br />
+<br />
 <strong>Preferences</strong><br />
 brief - hides descriptions when moving into locations ('look' will still show them)<br />
 verbose - shows desc riptions when moving into locations
-<br /><br />
-<strong>Other Commands</strong><br />
-about<br />
-look<br />
-status<br />

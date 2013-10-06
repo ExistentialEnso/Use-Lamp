@@ -13,7 +13,9 @@
     <title>&gt;Use Lamp Client</title>
   </head>
   <body>
-  <input id="command_line" type="text" />
-  <div id="output_buffer"></div>
+  <input id="command_line" type="text" placeholder="Type a command and press 'Enter'." />
+  <div id="output_buffer_container">
+    <div id="output_buffer"></div>
+  </div>
   </body>
 </html>

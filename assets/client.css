@@ -1,12 +1,16 @@
-#output_buffer {
+#output_buffer_container {
     width:100%;
     height:100%;
     overflow:auto;
-    font-family:monospace;
+}
+
+#output_buffer {
+  font-family:monospace;
+  margin-bottom:20px;
 }
 
 #command_line {
-    width:100%;
+    width:95%;
     font-family:monospace;
     position:absolute;
     left:0px;
