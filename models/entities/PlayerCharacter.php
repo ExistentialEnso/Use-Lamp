@@ -105,6 +105,7 @@ class PlayerCharacter extends GameEntity {
   public function setHealth($health) {
     // Don't let health go over the maximum
     if($health > $this->max_health) $health = $this->max_health;
+    if($health < 0) $health = 0;
 
     $this->health = $health;
   }

@@ -1,3 +1,5 @@
+var last_command = "";
+
 $(document).ready(function() {
     $.post("command-handler.php", {"cmd":"load"}, function(data) {
         $("#output_buffer").append(data);
@@ -6,6 +8,7 @@ $(document).ready(function() {
     $("#command_line").keydown(function(event) {
         if(event.keyCode == 13) {
             command = $("#command_line").val();
+            last_command = command;
 
             $.post("command-handler.php", {"cmd":command}, function(data) {
                 $("#output_buffer").append("<br />" + data);
@@ -18,6 +21,8 @@ $(document).ready(function() {
             // scroll to bottom of output buffer
             var objDiv = document.getElementById("output_buffer");
             objDiv.scrollTop = objDiv.scrollHeight;
+        } else if(event.keyCode == 38) {
+            $("#command_line").val(last_command);
         }
     });
 });

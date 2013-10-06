@@ -30,6 +30,13 @@ class Item extends GameEntity {
   protected $weight = 0;
 
   /**
+   * @ManyToMany(targetEntity="\models\events\Action")
+   * @JoinTable(name="item__useactions")
+   * @var array
+   */
+  protected $on_use_actions;
+
+  /**
    * @param \models\entities\PlayerCharacter $in_inventory_of_player
    */
   public function setInInventoryOfPlayer($in_inventory_of_player) {
@@ -57,6 +64,20 @@ class Item extends GameEntity {
    */
   public function getWeight() {
     return $this->weight;
+  }
+
+  /**
+   * @param array $on_use_actions
+   */
+  public function setOnUseActions($on_use_actions) {
+    $this->on_use_actions = $on_use_actions;
+  }
+
+  /**
+   * @return array
+   */
+  public function getOnUseActions() {
+    return $this->on_use_actions;
   }
 
 

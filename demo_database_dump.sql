@@ -1,3 +1,16 @@
+CREATE TABLE IF NOT EXISTS `action` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `type` int(11) NOT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `random_factor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+INSERT INTO `action` (`id`, `name`, `type`, `amount`, `random_factor`) VALUES
+(1, 'Heal Player 5-15 Points', 0, 10, 5),
+(2, 'Damage Player 50-100 Points', 1, 75, 25);
+
 CREATE TABLE IF NOT EXISTS `equipslot` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -28,10 +41,11 @@ CREATE TABLE IF NOT EXISTS `gameentity` (
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_FED2D79D64D218E` (`location_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 INSERT INTO `gameentity` (`id`, `name`, `location_text`, `description`, `location_id`, `type`) VALUES
-(1, 'lamp', 'A small, shaded, drawstring lamp sits on a pedestal in the center of the room.', 'Looks like the kind you''d find at any department store.', 1, 'item');
+(1, 'lamp', 'A small, shaded, drawstring lamp sits on a pedestal in the center of the room.', 'Looks like the kind you''d find at any department store.', NULL, 'item'),
+(3, 'bottle', 'A bottle with a skull and crossbones is here.', 'A large green bottle filled with an unknown liquid, but the skull and crossbones on it makes you feel it can''t be good.', NULL, 'item');
 
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL,
@@ -41,8 +55,9 @@ CREATE TABLE IF NOT EXISTS `item` (
   KEY `IDX_BF298A20AECA3FE2` (`in_inventory_of_player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `item` (`id`, `in_inventory_of_player_id`) VALUES
-(1, NULL);
+INSERT INTO `item` (`id`, `in_inventory_of_player_id`, `weight`) VALUES
+(1, 2, 1.2),
+(3, 2, 1);
 
 CREATE TABLE IF NOT EXISTS `itemtype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,6 +66,18 @@ CREATE TABLE IF NOT EXISTS `itemtype` (
   PRIMARY KEY (`id`),
   KEY `IDX_7FE4F889DB40209F` (`equips_in_slot_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `item__useactions` (
+  `item_id` int(11) NOT NULL,
+  `action_id` int(11) NOT NULL,
+  PRIMARY KEY (`item_id`,`action_id`),
+  KEY `IDX_B9C8F1BA126F525E` (`item_id`),
+  KEY `IDX_B9C8F1BA9D32F035` (`action_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `item__useactions` (`item_id`, `action_id`) VALUES
+(1, 1),
+(3, 2);
 
 CREATE TABLE IF NOT EXISTS `location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -159,6 +186,10 @@ ALTER TABLE `item`
 
 ALTER TABLE `itemtype`
   ADD CONSTRAINT `FK_7FE4F889DB40209F` FOREIGN KEY (`equips_in_slot_id`) REFERENCES `equipslot` (`id`);
+
+ALTER TABLE `item__useactions`
+  ADD CONSTRAINT `FK_B9C8F1BA9D32F035` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_B9C8F1BA126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `location`
   ADD CONSTRAINT `FK_A7E8EB9D49AA4A57` FOREIGN KEY (`navigation_matrix_id`) REFERENCES `navigationmatrix` (`id`);

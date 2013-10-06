@@ -57,6 +57,11 @@ $cmd = $_POST['cmd'];
 $cmd_pieces = explode(" ", $cmd);
 $root_cmd = $cmd_pieces[0];
 
+if($player->getHealth() == 0 && ($root_cmd != "load" && $root_cmd != "look")) {
+  echo("You can't do that when you're dead.");
+  exit;
+}
+
 if(isset($_verbosify[$root_cmd])) {
   $root_cmd = $_verbosify[$root_cmd];
 }

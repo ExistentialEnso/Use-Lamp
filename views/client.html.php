@@ -13,7 +13,7 @@
     <title>&gt;Use Lamp Client</title>
   </head>
   <body>
-  <input id="command_line" type="text" placeholder="Type a command and press 'Enter'." />
+  <input id="command_line" type="text" placeholder="Type a command and press 'Enter'. Press the up arrow to reload your last command." />
   <div id="output_buffer_container">
     <div id="output_buffer"></div>
   </div>
