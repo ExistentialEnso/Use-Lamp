@@ -10,7 +10,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
     <script src="assets/client.js" ></script>
     <link rel="stylesheet" type="text/css" href="assets/client.css">
-    <title>&gt;Use Lamp Client</title>
+    <title>Use Lamp Client</title>
   </head>
   <body>
   <input id="command_line" type="text" placeholder="Type a command and press 'Enter'. Press the up arrow to reload your last command." />

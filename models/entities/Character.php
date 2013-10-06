@@ -16,6 +16,17 @@ class Character extends GameEntity {
    * @Column(type="integer")
    * @var int
    */
+  protected $gender = 0;
+
+  const GENDER_NEUTER = 0; // "it" and "its"
+  const GENDER_MALE = 1; // "he" and "his"
+  const GENDER_FEMALE = 2; // "she" and "her"
+  const GENDER_QUEER = 3; // "zhe" and "zir"
+
+  /**
+   * @Column(type="integer")
+   * @var int
+   */
   protected $strength = 100;
 
   /**
@@ -41,6 +52,32 @@ class Character extends GameEntity {
    * @var int
    */
   protected $luck = 100;
+
+  public function getPronoun() {
+    switch($this->gender) {
+      case self::GENDER_MALE:
+        return "he";
+      case self::GENDER_FEMALE:
+        return "she";
+      case self::GENDER_QUEER:
+        return "zhe";
+      default:
+        return "it";
+    }
+  }
+
+  public function getPossessivePronoun() {
+    switch($this->gender) {
+      case self::GENDER_MALE:
+        return "his";
+      case self::GENDER_FEMALE:
+        return "her";
+      case self::GENDER_QUEER:
+        return "zir";
+      default:
+        return "its";
+    }
+  }
 
   /**
    * @param int $charisma
