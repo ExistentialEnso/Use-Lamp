@@ -13,8 +13,11 @@ drop [item]<br />
 examine [item] (or 'ex' for short)<br />
 inventory (or 'i' for short)
 <br /><br />
+<strong>Preferences</strong><br />
+brief - hides descriptions when moving into locations ('look' will still show them)
+verbose - shows desc riptions when moving into locations
+<br /><br />
 <strong>Other Commands</strong><br />
 about<br />
 look<br />
-use [name]<br />
 status<br />

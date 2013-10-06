@@ -18,8 +18,6 @@ class MoveCommand extends Command {
       $_SESSION['location_id'] = $new_location->getId(); // temp thing in development while player saving isn't setup fully
 
       $this->player->setLocation($new_location); // Move our player object to the new location.
-
-      $this->setView("look"); // The feedback given to the user is identical if they just use the "look" command in the new location
     }
 
     /*$new_location = $location->getLocation($cmd);
