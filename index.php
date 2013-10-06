@@ -23,7 +23,7 @@ if(isset($_POST['submit_login'])) {
       $character->setUser($user);
 
       $em->persist($user);
-      $em->persist($player);
+      $em->persist($character);
       $em->flush();
 
       // Save our login information

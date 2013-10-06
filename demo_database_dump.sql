@@ -1,3 +1,12 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+
 CREATE TABLE IF NOT EXISTS `action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -41,11 +50,12 @@ CREATE TABLE IF NOT EXISTS `gameentity` (
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_FED2D79D64D218E` (`location_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 INSERT INTO `gameentity` (`id`, `name`, `location_text`, `description`, `location_id`, `type`) VALUES
-(1, 'lamp', 'A small, shaded, drawstring lamp sits on a pedestal in the center of the room.', 'Looks like the kind you''d find at any department store.', NULL, 'item'),
-(3, 'bottle', 'A bottle with a skull and crossbones is here.', 'A large green bottle filled with an unknown liquid, but the skull and crossbones on it makes you feel it can''t be good.', NULL, 'item');
+(1, 'lamp', 'A small, shaded, drawstring lamp sits on a pedestal in the center of the room.', 'Looks like the kind you''d find at any department store.', 1, 'item'),
+(3, 'bottle', 'A bottle with a skull and crossbones is here.', 'A large green bottle filled with an unknown liquid, but the skull and crossbones on it makes you feel it can''t be good.', 2, 'item'),
+(5, 'John', NULL, NULL, 1, 'player');
 
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL,
@@ -56,8 +66,8 @@ CREATE TABLE IF NOT EXISTS `item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `item` (`id`, `in_inventory_of_player_id`, `weight`) VALUES
-(1, 2, 1.2),
-(3, 2, 1);
+(1, NULL, 1.2),
+(3, NULL, 1);
 
 CREATE TABLE IF NOT EXISTS `itemtype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -130,6 +140,11 @@ INSERT INTO `navigationmatrix` (`id`, `location_north_id`, `location_northeast_i
 
 CREATE TABLE IF NOT EXISTS `nonplayercharacter` (
   `id` int(11) NOT NULL,
+  `strength` int(11) NOT NULL,
+  `intellect` int(11) NOT NULL,
+  `dexterity` int(11) NOT NULL,
+  `charisma` int(11) NOT NULL,
+  `luck` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -139,31 +154,17 @@ CREATE TABLE IF NOT EXISTS `playercharacter` (
   `money` int(11) NOT NULL,
   `health` int(11) NOT NULL,
   `max_health` int(11) NOT NULL,
+  `strength` int(11) NOT NULL,
+  `intellect` int(11) NOT NULL,
+  `dexterity` int(11) NOT NULL,
+  `charisma` int(11) NOT NULL,
+  `luck` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_BB6DB4B4A76ED395` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `stat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
-
-INSERT INTO `stat` (`id`, `name`) VALUES
-(1, 'Strength'),
-(2, 'Intellect'),
-(3, 'Charisma'),
-(4, 'Luck');
-
-CREATE TABLE IF NOT EXISTS `statvalue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stat_id` int(11) DEFAULT NULL,
-  `entity_id` int(11) DEFAULT NULL,
-  `value` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_222A7EDC9502F0B` (`stat_id`),
-  KEY `IDX_222A7EDC81257D5D` (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+INSERT INTO `playercharacter` (`id`, `user_id`, `money`, `health`, `max_health`, `strength`, `intellect`, `dexterity`, `charisma`, `luck`) VALUES
+(5, 10, 10, 100, 100, 100, 100, 100, 100, 100);
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -171,7 +172,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `verbose_mode_on` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+
+INSERT INTO `user` (`id`, `email_address`, `password_hash`, `verbose_mode_on`) VALUES
+(10, 'test@user.com', '$1$Sc2.z94.$yGhAkyLme5spSXK8S2Hhr/', 1);
 
 
 ALTER TABLE `game`
@@ -215,6 +219,6 @@ ALTER TABLE `playercharacter`
   ADD CONSTRAINT `FK_B1590889BF396750` FOREIGN KEY (`id`) REFERENCES `gameentity` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_BB6DB4B4A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-ALTER TABLE `statvalue`
-  ADD CONSTRAINT `FK_222A7EDC81257D5D` FOREIGN KEY (`entity_id`) REFERENCES `gameentity` (`id`),
-  ADD CONSTRAINT `FK_222A7EDC9502F0B` FOREIGN KEY (`stat_id`) REFERENCES `stat` (`id`);
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

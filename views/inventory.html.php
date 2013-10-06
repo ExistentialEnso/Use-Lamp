@@ -4,9 +4,11 @@
 */
 
 $items = $player->getInventoryItems();
-
+?>
+Money: <?=$player->getMoney()?> coins<br />
+<?php
 if(count($items) == 0) {
-  ?>You have nothing in your inventory.<?php
+  ?>You have nothing else in your inventory.<?php
 } else {
   ?>Your inventory contains:<br /><?php
   foreach($items as $item) {

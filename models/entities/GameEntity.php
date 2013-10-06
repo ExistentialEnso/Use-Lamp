@@ -51,12 +51,6 @@ class GameEntity {
   protected $description;
 
   /**
-   * @OneToMany(targetEntity="StatValue", mappedBy="entity")
-   * @var array
-   */
-  protected $stat_values;
-
-  /**
    * @param string $description
    */
   public function setDescription($description) {
@@ -125,20 +119,4 @@ class GameEntity {
   public function getLocation() {
     return $this->location;
   }
-
-  /**
-   * @param array $stat_values
-   */
-  public function setStatValues($stat_values) {
-    $this->stat_values = $stat_values;
-  }
-
-  /**
-   * @return array
-   */
-  public function getStatValues() {
-    return $this->stat_values;
-  }
-
-
 }

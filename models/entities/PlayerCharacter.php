@@ -11,7 +11,7 @@ namespace models\entities;
  * @Table(name="playercharacter")
  * @package models\entities
  */
-class PlayerCharacter extends GameEntity {
+class PlayerCharacter extends Character {
   /**
    * Items currently in this player's inventory.
    *
@@ -32,7 +32,7 @@ class PlayerCharacter extends GameEntity {
    * @Column(type="integer")
    * @var int
    */
-  protected $money;
+  protected $money = 10;
 
   /**
    * @Column(type="integer")

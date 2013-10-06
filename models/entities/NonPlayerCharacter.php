@@ -11,6 +11,6 @@ namespace models\entities;
  * @Table(name="nonplayercharacter")
  * @package models\entities
  */
-class NonPlayerCharacter extends GameEntity {
+class NonPlayerCharacter extends Character {
 
 }

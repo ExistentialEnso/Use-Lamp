@@ -13,9 +13,9 @@ drop [item]<br />
 examine [item] (or 'ex' for short)<br />
 inventory (or 'i' for short)
 <br /><br />
-<strong>Information-Related</strong><br />
+<strong>Get Information</strong><br />
 about - information about the game<br />
-look - information about your current location<br />
+look - information about your current location (or 'l' for short)<br />
 status - information about your character's current status<br />
 <br />
 <strong>Preferences</strong><br />
