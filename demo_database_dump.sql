@@ -36,6 +36,7 @@ INSERT INTO `gameentity` (`id`, `name`, `location_text`, `description`, `locatio
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL,
   `in_inventory_of_player_id` int(11) DEFAULT NULL,
+  `weight` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_BF298A20AECA3FE2` (`in_inventory_of_player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

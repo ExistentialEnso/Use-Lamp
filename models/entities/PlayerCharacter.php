@@ -46,6 +46,17 @@ class PlayerCharacter extends GameEntity {
    */
   protected $max_health = 100;
 
+  public function getInventoryWeight() {
+    if(is_null($this->inventory_items)) return 0;
+
+    $total = 0;
+    foreach($this->inventory_items as $item) {
+      $total += $item->getWeight();
+    }
+
+    return $total;
+  }
+
   /**
    * @param array $inventory_items
    */

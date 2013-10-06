@@ -14,5 +14,8 @@ if(count($items) == 0) {
     * <?=$item->getName()?><br />
     <?php
   }
+  ?>
+  The total weight of these items is <?=$player->getInventoryWeight()?> kg.
+  <?php
 }
 ?>

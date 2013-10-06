@@ -22,6 +22,14 @@ class Item extends GameEntity {
   protected $in_inventory_of_player;
 
   /**
+   * The weight of the item in kg.
+   *
+   * @Column(type="float")
+   * @var float
+   */
+  protected $weight = 0;
+
+  /**
    * @param \models\entities\PlayerCharacter $in_inventory_of_player
    */
   public function setInInventoryOfPlayer($in_inventory_of_player) {
@@ -36,4 +44,20 @@ class Item extends GameEntity {
   public function getInInventoryOfPlayer() {
     return $this->in_inventory_of_player;
   }
+
+  /**
+   * @param float $weight
+   */
+  public function setWeight($weight) {
+    $this->weight = $weight;
+  }
+
+  /**
+   * @return float
+   */
+  public function getWeight() {
+    return $this->weight;
+  }
+
+
 }

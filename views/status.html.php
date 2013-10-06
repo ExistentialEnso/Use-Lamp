@@ -4,5 +4,8 @@
  *
  * @TODO - actually show status menu
  */
+
+$health_p = number_format((($player->getHealth() / $player->getMaxHealth()) * 100), 1);
 ?>
-You're doing mighty well. [HP 100/100]
+Money: <?=$player->GetMoney()?> coins<br />
+Health: <?=$player->getHealth()?>/<?=$player->getMaxHealth()?> [<?=$health_p?>%]<br />
